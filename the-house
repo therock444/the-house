@@ -1,0 +1,113 @@
+#!/bin/bash
+# the-house
+# main entry point
+# Copyright (c) 2025 therock
+# SPDX-License-Identifier: MIT
+
+set -euo pipefail
+BALANCE_FILE="$HOME/.config/the-house/balance.txt"
+BLACKLIST_FILE="$HOME/.config/the-house/blacklist.txt"
+LOG_FILE="$HOME/.config/the-house/log.txt"
+PACT_FILE="$HOME/.config/the-house/pact.txt"
+mkdir -p "$HOME/.config/the-house"
+touch "$BALANCE_FILE" "$LOG_FILE"
+
+VERSION="1.0.0-1"
+if [[ "${1-}" == "--version" || "${1-}" == "-v" ]]; then
+    echo "the-house $VERSION"
+    exit 0
+fi
+
+if [[ "${1-}" == "--help" || "${1-}" == "-h" ]]; then
+    cat <<EOF
+the-house $VERSION
+
+usage: the-house [--version|--help|--redeem-my-soul]
+
+options:
+  --version, -v           show version
+  --help, -h              show this help
+  --redeem-my-soul        reset after blacklisting and set balance to 100$
+
+gamble wisely. the house always wins.
+EOF
+    exit 0
+fi
+
+if [[ ! -s "$BALANCE_FILE" ]]; then
+    echo 500 > "$BALANCE_FILE" # starting balance, graceful (be glad)
+fi
+player_money=$(<"$BALANCE_FILE")
+
+if [[ "${1-}" == "--redeem-my-soul" ]]; then # this explodes without {x-} lmao
+    echo "against all odds, youre back."
+    rm -f "$BLACKLIST_FILE"
+    echo 100 > "$BALANCE_FILE"
+    exit 0
+fi
+
+if [[ -f "$PACT_FILE" ]]; then
+    echo "it looks like youve signed the pact, interesting"
+    sleep 0.5
+fi
+
+if [[ -f "$BLACKLIST_FILE" ]]; then
+    echo "the house remembers."
+    echo "you are not welcome here."
+    echo
+    echo "use: the-house --redeem-my-soul"
+    exit 1
+fi
+
+while true; do
+    clear
+    echo "welcome to the house"
+    echo "your balance: \$$player_money"
+    echo
+    sleep 1
+    echo "choose your sin:"
+    echo "1) blackjack"
+    echo "2) russian roulette"
+    echo "3) dice duel"
+    echo "4) coin flip"
+    echo "5) the pact"
+    echo "6) exit"
+    echo
+
+    read -r -p "select an option: " choice
+    case "$choice" in
+        1)
+            bash games/blackjack.sh
+            player_money=$(<"$BALANCE_FILE")
+            [[ -f "$BLACKLIST_FILE" ]] && break
+            ;;
+        2)
+            bash games/russian-roulette.sh
+            player_money=$(<"$BALANCE_FILE")
+            [[ -f "$BLACKLIST_FILE" ]] && break
+            ;;
+        3)
+            bash games/dice-duel.sh
+            player_money=$(<"$BALANCE_FILE")
+            [[ -f "$BLACKLIST_FILE" ]] && break
+            ;;
+        4)
+            bash games/coinflip.sh
+            player_money=$(<"$BALANCE_FILE")
+            [[ -f "$BLACKLIST_FILE" ]] && break
+            ;;
+        5)
+            bash games/pact.sh
+            player_money=$(<"$BALANCE_FILE")
+            [[ -f "$BLACKLIST_FILE" ]] && break
+            ;;
+        6)
+            echo "the house always wins."
+            exit 0
+            ;;
+        *)
+            echo "invalid selection."
+            sleep 1
+            ;;
+    esac
+done

@@ -12,9 +12,16 @@ PACT_FILE="$HOME/.config/the-house/pact.txt"
 mkdir -p "$HOME/.config/the-house"
 touch "$BALANCE_FILE" "$LOG_FILE"
 
-VERSION="1.0.1-2"
+VERSION="1.0.1-4"
 if [[ "${1-}" == "--version" || "${1-}" == "-v" ]]; then
     echo "the-house $VERSION"
+    exit 0
+fi
+
+if [[ "${1-}" == "--redeem-my-soul" ]]; then # this explodes without {x-} lmao
+    echo "against all odds, youre back."
+    rm -f "$BLACKLIST_FILE"
+    echo 100 > "$BALANCE_FILE"
     exit 0
 fi
 
@@ -44,13 +51,6 @@ fi
 
 if [[ ! -s "$BALANCE_FILE" ]]; then
     echo 500 > "$BALANCE_FILE" # starting balance, graceful (be glad)
-fi
-
-if [[ "${1-}" == "--redeem-my-soul" ]]; then # this explodes without {x-} lmao
-    echo "against all odds, youre back."
-    rm -f "$BLACKLIST_FILE"
-    echo 100 > "$BALANCE_FILE"
-    exit 0
 fi
 
 if [[ -f "$PACT_FILE" ]]; then

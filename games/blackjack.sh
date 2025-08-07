@@ -45,6 +45,7 @@ echo "welcome to hell (blackjack)"
 read -r -p "place your bet (you have \$$player_money): " bet
 if (( bet > player_money || bet <= 0 )); then
     echo "invalid bet, try again"
+    read -n 1 -s -r -p "press any key to return"
     exit 1
 fi
 player_money=$((player_money - bet))

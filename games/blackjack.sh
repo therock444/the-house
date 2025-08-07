@@ -74,7 +74,7 @@ while true; do
         echo "bust, you lose!"
         echo "$player_money" > "$BALANCE_FILE"
         echo "you now have $player_money"
-        ggez=true 
+        ggez=true
         check_pact_loss
         read -n 1 -s -r -p "press any key to return"
         break

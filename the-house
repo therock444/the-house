@@ -18,6 +18,13 @@ if [[ "${1-}" == "--version" || "${1-}" == "-v" ]]; then
     exit 0
 fi
 
+if [[ "$player_money" -eq 0 ]]; then
+    echo "you've gone broke. the house does not tolerate weakness."
+    echo "use: the-house --redeem-my-soul"
+    echo "blacklisted for going broke" > "$BLACKLIST_FILE"
+    exit 1
+fi
+
 if [[ "${1-}" == "--help" || "${1-}" == "-h" ]]; then
     cat <<EOF
 the-house $VERSION

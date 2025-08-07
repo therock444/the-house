@@ -1,8 +1,7 @@
 #!/bin/bash
 # blackjack.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/common.sh"
+source /usr/lib/the-house/games/common.sh
 
 player_money=$(<"$BALANCE_FILE")
 clear
@@ -73,7 +72,9 @@ while true; do
     elif (( player_total > 21 )); then
         echo "bust, you lose!"
         echo "$player_money" > "$BALANCE_FILE"
+        echo "you now have $player_money"
         check_pact_loss
+        read -n 1 -s -r -p "press any key to return"
         break
     fi
 
@@ -118,30 +119,25 @@ if (( dealer_total > 21 )); then
     echo "dealer busts, you win!"
     player_money=$((player_money + bet * 2))
     echo "$player_money" > "$BALANCE_FILE"
+    echo "you now have $player_money"
+    read -n 1 -s -r -p "press any key to return"
 elif (( player_total > dealer_total )); then
     echo "you win!"
     player_money=$((player_money + bet * 2))
     echo "$player_money" > "$BALANCE_FILE"
+    echo "you now have $player_money"
+    read -n 1 -s -r -p "press any key to return"
 elif (( player_total < dealer_total )); then
     echo "dealer wins!"
     echo "$player_money" > "$BALANCE_FILE"
+    echo "you now have $player_money"
     check_pact_loss
+    read -n 1 -s -r -p "press any key to return"
 else
     echo "draw"
     player_money=$((player_money + bet))
     echo "$player_money" > "$BALANCE_FILE"
+    echo "you now have $player_money"
 fi
-fi
-echo 
-echo " --- ROUND END ---"
-echo "money left: $player_money"
-sleep 0.5
-echo "maybe time to rethink your life choices? just saying"
-echo "or gamble again"
-sleep 1
-if (( player_money <= 0 )); then
-    echo "youre out of money. the house always wins."
-    echo "you did this" > "$BLACKLIST_FILE"
-    exit
 fi
 echo "$(date): you: ${player_hand[*]} ($player_total) | dealer: ${dealer_hand[*]} ($dealer_total) | balance: \$$player_money" >> "$LOG_FILE"

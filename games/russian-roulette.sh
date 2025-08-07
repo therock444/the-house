@@ -1,8 +1,7 @@
 #!/bin/bash
 # russian-roulette.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/common.sh"
+source /usr/lib/the-house/games/common.sh
 
 player_money=$(<"$BALANCE_FILE")
 clear
@@ -43,6 +42,7 @@ if (( trigger == bullet )); then
     sleep 1
     echo "shot during russian roulette" > "$HOME/.config/the-house/blacklist.txt"
     check_pact_loss
+    read -n 1 -s -r -p "press any key to return"
 else
     echo "you live. for now."
     sleep 1

@@ -1,8 +1,7 @@
 #!/bin/bash
 # dice-duel.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/common.sh"
+source /usr/lib/the-house/games/common.sh
 
 player_money=$(<"$BALANCE_FILE")
 echo "welcome to dice duel"
@@ -34,16 +33,20 @@ echo "house: $house_die1 + $house_die2 = $house_total"
 
 if (( player_total > house_total )); then
     echo "you win the duel"
-    sleep 2
+    sleep 1
     player_money=$((player_money + bet * 2))
 elif (( player_total < house_total )); then
-    echo "the house wins"
-    sleep 2
+    echo "the house (always) wins"
+    sleep 1
+    echo "you now have $player_money"
     check_pact_loss
+    read -n 1 -s -r -p "press any key to return"
 else
     echo "draw"
-    sleep 2
+    sleep 1
     player_money=$((player_money + bet))
+    echo "you now have $player_money"
+    read -n 1 -s -r -p "press any key to return"
 fi
 
 echo "$player_money" > "$BALANCE_FILE"

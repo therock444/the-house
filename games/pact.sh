@@ -1,8 +1,7 @@
 #!/bin/bash
 # pact.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/common.sh"
+source /usr/lib/the-house/games/common.sh
 
 if [[ -f "$PACT_FILE" ]]; then
     echo "youve already signed the pact"

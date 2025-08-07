@@ -1,8 +1,7 @@
 #!/bin/bash
 # coinflip.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/common.sh"
+source /usr/lib/the-house/games/common.sh
 
 clear
 echo "welcome to coinflip"
@@ -30,11 +29,13 @@ flip=$(( RANDOM % 2 ))
 if [[ "$choice" == "$result" ]]; then
     echo "you win the flip"
     player_money=$((player_money + bet * 2))
-    sleep 2
+    sleep 1
 else
     echo "you lose the flip"
-    sleep 2
+    sleep 1
+    echo "you now have $player_money"
     check_pact_loss
+    read -n 1 -s -r -p "press any key to return"
 fi
 
 echo "$player_money" > "$BALANCE_FILE"

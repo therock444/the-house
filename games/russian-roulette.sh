@@ -52,6 +52,7 @@ else
     sleep 1
     echo "balance doubled, was it worth risking?"
     sleep 1
+    read -n 1 -s -r -p "press any key to return"
 fi
 if (( trigger == bullet )); then
     echo "$(date): russian roulette | LOST | bet: $bet | balance: $player_money" >> "$LOG_FILE"

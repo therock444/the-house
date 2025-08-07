@@ -2,11 +2,10 @@
 # dice-duel.sh
 
 source /usr/lib/the-house/games/common.sh
-
+clear
 player_money=$(<"$BALANCE_FILE")
 echo "welcome to dice duel"
 sleep 1
-clear
 read -r -p "place your bet (you have \$$player_money): " bet
 
 if (( bet > player_money || bet <= 0 )); then

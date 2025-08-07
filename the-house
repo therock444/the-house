@@ -12,18 +12,29 @@ PACT_FILE="$HOME/.config/the-house/pact.txt"
 mkdir -p "$HOME/.config/the-house"
 touch "$BALANCE_FILE" "$LOG_FILE"
 
-VERSION="1.0.1-6"
+if [[ ! -s "$BALANCE_FILE" ]]; then
+    echo 500 > "$BALANCE_FILE" # starting balance, graceful (be glad)
+fi
+
+VERSION="1.0.1-8"
 if [[ "${1-}" == "--version" || "${1-}" == "-v" ]]; then
     echo "the-house $VERSION"
     exit 0
 fi
 
-if [[ "${1-}" == "--redeem-my-soul" ]]; then # this explodes without {x-} lmao
-    echo "against all odds, youre back."
+if [[ "${1-}" == "--redeem-my-soul" ]]; then
+    if [[ ! -f "$BLACKLIST_FILE" ]]; then
+        echo "you are not blacklisted... yet."
+        exit 0
+    fi
+
+    echo "redemption arc"
     rm -f "$BLACKLIST_FILE"
+    echo "you may return to the house"
     echo 100 > "$BALANCE_FILE"
     exit 0
 fi
+
 
 player_money=$(<"$BALANCE_FILE")
 if [[ "$player_money" -eq 0 ]]; then
@@ -47,10 +58,6 @@ options:
 gamble wisely. the house always wins.
 EOF
     exit 0
-fi
-
-if [[ ! -s "$BALANCE_FILE" ]]; then
-    echo 500 > "$BALANCE_FILE" # starting balance, graceful (be glad)
 fi
 
 if [[ -f "$PACT_FILE" ]]; then

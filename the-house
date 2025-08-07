@@ -16,7 +16,7 @@ if [[ ! -s "$BALANCE_FILE" ]]; then
     echo 500 > "$BALANCE_FILE" # starting balance, graceful (be glad)
 fi
 
-VERSION="1.0.1-8"
+VERSION="1.0.2-1"
 if [[ "${1-}" == "--version" || "${1-}" == "-v" ]]; then
     echo "the-house $VERSION"
     exit 0
@@ -44,6 +44,13 @@ if [[ "$player_money" -eq 0 ]]; then
     exit 1
 fi
 
+if [[ "$player_money" -gt 1000000 ]]; then
+    echo "did you cheat?"
+    echo "doesnt matter now, you won i guess"
+    echo "final balance: $player_money"
+    exit 0
+fi
+
 if [[ "${1-}" == "--help" || "${1-}" == "-h" ]]; then
     cat <<EOF
 the-house $VERSION
@@ -60,11 +67,6 @@ EOF
     exit 0
 fi
 
-if [[ -f "$PACT_FILE" ]]; then
-    echo "it looks like youve signed the pact, interesting"
-    sleep 0.5
-fi
-
 if [[ -f "$BLACKLIST_FILE" ]]; then
     echo "the house remembers."
     echo "you are not welcome here."
@@ -77,6 +79,10 @@ while true; do
     clear
     echo "welcome to the house"
     echo "your balance: \$$player_money"
+    if [[ -f "$PACT_FILE" ]]; then
+    echo "it looks like youve signed the pact, interesting"
+    sleep 0.5
+    fi
     echo
     sleep 1
     echo "choose your sin:"

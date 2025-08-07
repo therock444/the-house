@@ -31,20 +31,22 @@ house_total=$((house_die1 + house_die2))
 echo "house: $house_die1 + $house_die2 = $house_total"
 
 if (( player_total > house_total )); then
-    echo "you win the duel"
-    sleep 1
+    echo "you win!"
     player_money=$((player_money + bet * 2))
+    echo "your new balance: \$$player_money"
+    sleep 1
+    read -n 1 -s -r -p "press any key to return"
 elif (( player_total < house_total )); then
     echo "the house (always) wins"
     sleep 1
-    echo "you now have $player_money"
+    echo "your new balance: \$$player_money"
     check_pact_loss
     read -n 1 -s -r -p "press any key to return"
 else
     echo "draw"
     sleep 1
     player_money=$((player_money + bet))
-    echo "you now have $player_money"
+    echo "your new balance: \$$player_money"
     read -n 1 -s -r -p "press any key to return"
 fi
 

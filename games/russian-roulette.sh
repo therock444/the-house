@@ -51,6 +51,7 @@ else
     echo "$player_money" > "$BALANCE_FILE"
     sleep 1
     echo "balance doubled, was it worth risking?"
+    echo "your new balance: \$$player_money"
     sleep 1
     read -n 1 -s -r -p "press any key to return"
 fi

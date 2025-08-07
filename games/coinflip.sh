@@ -30,11 +30,15 @@ if [[ "$choice" == "$result" ]]; then
     echo "you win the flip"
     player_money=$((player_money + bet * 2))
     sleep 1
+    echo "your new balance: \$$player_money"
+    sleep 1
+    read -n 1 -s -r -p "press any key to return"
 else
     echo "you lose the flip"
     sleep 1
-    echo "you now have $player_money"
+    echo "your new balance: \$$player_money"
     check_pact_loss
+    sleep 1
     read -n 1 -s -r -p "press any key to return"
 fi
 

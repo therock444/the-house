@@ -94,12 +94,12 @@ while true; do
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;
         3)
-            bash /usr/lib/the-house/games/coinflip.sh
+            bash /usr/lib/the-house/games/dice-duel.sh
             player_money=$(<"$BALANCE_FILE")
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;
         4)
-            bash /usr/lib/the-house/games/dice-duel.sh
+            bash /usr/lib/the-house/games/coinflip.sh
             player_money=$(<"$BALANCE_FILE")
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;

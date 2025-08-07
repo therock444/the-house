@@ -19,7 +19,7 @@ fi
 
 player_money=$((player_money - bet))
 
-bullet=$(( RANDOM % 6 ))  
+bullet=$(( RANDOM % 3 ))  
 trigger=0
 
 read -r -p "pull the trigger? [y/n]: " choice

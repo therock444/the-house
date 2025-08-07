@@ -12,7 +12,7 @@ PACT_FILE="$HOME/.config/the-house/pact.txt"
 mkdir -p "$HOME/.config/the-house"
 touch "$BALANCE_FILE" "$LOG_FILE"
 
-VERSION="1.0.0-4"
+VERSION="1.0.0-5"
 if [[ "${1-}" == "--version" || "${1-}" == "-v" ]]; then
     echo "the-house $VERSION"
     exit 0
@@ -77,27 +77,27 @@ while true; do
     read -r -p "select an option: " choice
     case "$choice" in
         1)
-            bash /usr/lib/games/the-house/blackjack.sh
+            bash /usr/lib/the-house/games/blackjack.sh
             player_money=$(<"$BALANCE_FILE")
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;
         2)
-            bash /usr/lib/games/the-house/russian-roulette.sh
+            bash /usr/lib//the-house/games/russian-roulette.sh
             player_money=$(<"$BALANCE_FILE")
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;
         3)
-            bash /usr/lib/games/the-house/coinflip.sh
+            bash /usr/lib/the-house/games/coinflip.sh
             player_money=$(<"$BALANCE_FILE")
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;
         4)
-            bash /usr/lib/games/the-house/dice-duel.sh
+            bash /usr/lib/the-house/games/dice-duel.sh
             player_money=$(<"$BALANCE_FILE")
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;
         5)
-            bash /usr/lib/games/the-house/pact.sh
+            bash /usr/lib/the-house/games/pact.sh
             player_money=$(<"$BALANCE_FILE")
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;

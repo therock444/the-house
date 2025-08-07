@@ -1,6 +1,7 @@
 #!/bin/bash
 # blackjack.sh
 
+ggez=false
 source /usr/lib/the-house/games/common.sh
 
 player_money=$(<"$BALANCE_FILE")

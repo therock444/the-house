@@ -77,27 +77,27 @@ while true; do
     read -r -p "select an option: " choice
     case "$choice" in
         1)
-            bash games/blackjack.sh
+            bash /usr/lib/the-house/blackjack.sh
             player_money=$(<"$BALANCE_FILE")
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;
         2)
-            bash games/russian-roulette.sh
+            bash /usr/lib/the-house/russian-roulette.sh
             player_money=$(<"$BALANCE_FILE")
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;
         3)
-            bash games/dice-duel.sh
+            bash /usr/lib/the-house/coinflip.sh
             player_money=$(<"$BALANCE_FILE")
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;
         4)
-            bash games/coinflip.sh
+            bash /usr/lib/the-house/dice-duel.sh
             player_money=$(<"$BALANCE_FILE")
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;
         5)
-            bash games/pact.sh
+            bash /usr/lib/the-house/pact.sh
             player_money=$(<"$BALANCE_FILE")
             [[ -f "$BLACKLIST_FILE" ]] && break
             ;;

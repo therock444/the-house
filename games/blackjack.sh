@@ -69,6 +69,8 @@ while true; do
     	player_money=$((player_money + bet * 2))
     	echo "$player_money" > "$BALANCE_FILE"
     	ggez=true 
+    	echo "your new balance: \$$player_money"
+    	read -n 1 -s -r -p "press any key to return"
     	break
     elif (( player_total > 21 )); then
         echo "bust, you lose!"

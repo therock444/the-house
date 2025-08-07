@@ -47,10 +47,10 @@ else
     echo "you live. for now."
     sleep 1
     echo "the house watches."
-    player_money=$((player_money + bet * 2))
+    player_money=$((player_money + bet * 3))
     echo "$player_money" > "$BALANCE_FILE"
     sleep 1
-    echo "balance doubled, was it worth risking?"
+    echo "bet tripled, was it worth risking?"
     echo "your new balance: \$$player_money"
     sleep 1
     read -n 1 -s -r -p "press any key to return"

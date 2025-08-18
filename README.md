@@ -4,12 +4,11 @@
 
 ## features
 
-- persistent balance tracking
-- russian roulette (high risk, high reward, or death)
-- blackjack (just you vs the dealer)
-- dice duel (bet on a roll off)
-- coin flip (50/50. or is it?)
-- "the pact" — you can sign it. but should you?
+- 20 unique games
+- persistent balance
+- shop and inventory system
+- fancy colored output
+- optional gambling addiction
 
 your progress, wins, and... mistakes are all remembered. even after death.
 

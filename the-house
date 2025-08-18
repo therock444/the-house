@@ -11,8 +11,8 @@ PACT_FILE="$CONFIG_DIR/the-house/pact.txt"
 LOCK_FILE="$CONFIG_DIR/the-house/debug-lock.txt"
 SHOP_FILE="$CONFIG_DIR/the-house/shop.txt"
 INVENTORY_FILE="$CONFIG_DIR/the-house/inventory.txt"
-touch "$BALANCE_FILE" "$LOG_FILE"
-touch "$INVENTORY_FILE"
+ACHIEVEMENTS_FILE="$CONFIG_DIR/the-house/achievements.txt"
+touch "$BALANCE_FILE" "$LOG_FILE" "$ACHIEVEMENTS_FILE" "$INVENTORY_FILE"
 if [[ ! -s "$BALANCE_FILE" ]]; then
     echo 777  > "$BALANCE_FILE" # starting balance, graceful (be glad)
 fi
@@ -188,7 +188,56 @@ inventory_menu() {
     done
 }
 
+unlock_achievement() {
+    local achievement="$1"
+    if ! grep -Fxq "$achievement" "$ACHIEVEMENTS_FILE"; then
+        echo "$achievement" >> "$ACHIEVEMENTS_FILE"
+        clear
+        echo -e "\033[1;32machievement unlocked: $achievement\033[0m"
+        sleep 1
+        read -n 1 -s -r -p "press any key to return"
+    fi
+}
+
+if (( player_money == 0 )); then
+    unlock_achievement "going broke // gamble away your entire balance"
+fi
+
+if (( player_money == 777 )); then
+    unlock_achievement "welcome // enter the house"
+fi
+
+if (( player_money >= 5000 )); then
+    unlock_achievement "woah thats alot of money // 5000$ balance reached"
+fi
+
+if (( player_money >= 250000 )); then
+    unlock_achievement "wait, you can win? // 250k balance reached"
+fi
+
+if grep -Fxq "one-time-shell-access" "$INVENTORY_FILE"; then
+    unlock_achievement "4th wall break // acquire temporary shell access"
+fi
+
+if grep -Fxq "get-out-of-pact-card" "$INVENTORY_FILE"; then
+    unlock_achievement "cheat the system // cancel the pact"
+fi
+
+achievements_menu() {
+    clear
+    echo -e "\033[94machievements\033[0m"
+    if [[ ! -s "$ACHIEVEMENTS_FILE" ]]; then
+        echo "no achievements unlocked yet"
+    else
+        cat "$ACHIEVEMENTS_FILE"
+    fi
+    echo
+    sleep 1
+    read -n 1 -s -r -p "press any key to return"
+}
+
 if [[ "$player_money" -gt 250000 ]]; then
+    echo
     echo "you acquired 250k"
     read -r -p "do you want to exit? (y/N) " cont
     if [[ "$cont" =~ ^[Yy]$ ]]; then
@@ -333,8 +382,9 @@ echo -e "\033[1;36m==> extra\033[0m"
 echo -e "\033[97m21)\033[0m the pact"
 echo -e "\033[97m22)\033[0m shop"
 echo -e "\033[97m23)\033[0m inventory"
-echo -e "\033[97m24)\033[0m reload"
-echo -e "\033[97m25)\033[0m random game"
+echo -e "\033[97m24)\033[0m random game"
+echo -e "\033[97m25)\033[0m achievements"
+echo -e "\033[97m26)\033[0m reload"
 echo
 echo -e "\033[97m99)\033[0m back to page 1"
 echo
@@ -344,7 +394,8 @@ case "$choice" in
     21) bash "$GAMES"/pact.sh ;;
     22) shop_menu ;;
     23) inventory_menu ;;
-    24) exit 0 ;;
+    26) exit 0 ;;
+    25) achievements_menu ;;
     1337)
     read -s -p "> " input
     if [[ "$input" == verysecret ]]; then
@@ -354,7 +405,7 @@ case "$choice" in
        exit 0
     fi
     ;;
-    25)  
+    24)  
     gambling=$((RANDOM % 20 + 1))
     case "$gambling" in
         1)  bash "$GAMES"/blackjack.sh ;;
@@ -384,4 +435,3 @@ case "$choice" in
 esac
 player_money=$(<"$BALANCE_FILE")
 done
-

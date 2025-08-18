@@ -10,11 +10,13 @@ if [[ -f "$PACT_FILE" ]]; then
 fi
 
 player_money=$(<"$BALANCE_FILE")
+clear
 echo "the pact is offered to you."
 sleep 1
-echo "your balance will be multiplied by 5..."
+echo "your balance will be multiplied by 5"
 sleep 1
-echo "but one loss, and your balance is set to 10 measly dollars"
+echo "but one loss, and your balance is set to 1 measly dollar"
+sleep 1
 read -r -p "do you accept the pact? [y/n]: " choice
 
 if [[ "$choice" != "y" ]]; then
@@ -32,5 +34,5 @@ echo "your balance is now \$$player_money."
 echo "$(date) --- signed the pact" > "$PACT_FILE"
 sleep 1
 echo "watch your back"
-sleep 3
+sleep 1
 exit 0

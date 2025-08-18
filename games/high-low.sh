@@ -1,10 +1,12 @@
 #!/bin/bash
-# coinflip.sh
+# high-low.sh
 
 source /usr/lib/the-house/games/common.sh
 
+player_money=$(<"$BALANCE_FILE")
 clear
-echo "welcome to coinflip: pays 2x"
+
+echo "welcome to high-low: pays 2x"
 echo
 sleep 0.5
 
@@ -18,33 +20,38 @@ if ! [[ "$bet" =~ ^[0-9]+$ ]] || (( bet > player_money || bet <= 0 )); then
     exit 1
 fi
 
-player_money=$((player_money - bet))
+player_money=$(( player_money - bet ))
 echo -e "\e[31mbet placed: \$$bet\e[0m"
 sleep 0.5
+current_card=$(( RANDOM % 13 + 1 ))
+echo
+echo "starting card is $current_card"
 
-read -rp "heads or tails? [h/t]: " choice
-if [[ "$choice" != "h" && "$choice" != "t" ]]; then
-    echo "invalid choice"
-    exit 1
+read -r -p "will the next card be higher or lower? (h/l): " guess
+if [[ ! "$guess" =~ ^[hlHL]$ ]]; then
+    echo "invalid input"
+    read -n 1 -s -r -p "press any key to return"
+    break
 fi
 
-echo "flipping the coin"
-sleep 1
-flip=$(( RANDOM % 2 ))
-[[ "$flip" -eq 0 ]] && result="h" || result="t"
+next_card=$(( RANDOM % 13 + 1 ))
+echo "next card is $next_card"
 
-if [[ "$choice" == "$result" ]]; then
-    echo "it was: $result"
-    sleep 1
+win=0
+if [[ "$guess" =~ ^[hH]$ && next_card -gt current_card ]]; then
+    win=1
+elif [[ "$guess" =~ ^[lL]$ && next_card -lt current_card ]]; then
+    win=1
+fi
+
+if (( win )); then
     echo -e "\e[32myou win!\e[0m"
     sleep 1
-    player_money=$((player_money + bet * 2))
+    player_money=$(( player_money + bet * 2))
     echo -e "your new balance: \e[32m\$$player_money\e[0m"
     sleep 0.5
     read -n 1 -s -r -p "press any key to return"
 else
-    echo "it was: $result"
-    sleep 1
     echo -e "\e[31myou lose\e[0m"
     sleep 1
     echo -e "your new balance: \e[31m\$$player_money\e[0m"
@@ -54,5 +61,3 @@ else
 fi
 
 echo "$player_money" > "$BALANCE_FILE"
-echo "$(date): coin flip | choice: $choice | result: $result | balance: \$$player_money" >> "$LOG_FILE"
-

@@ -6,7 +6,7 @@ source /usr/lib/the-house/games/common.sh
 player_money=$(<"$BALANCE_FILE")
 clear
 
-echo "welcome to plinko: pays 1-5x"
+echo "welcome to plinko: pays 1-2x"
 echo
 sleep 0.5
 

@@ -24,7 +24,7 @@ player_money=$((player_money - bet))
 echo -e "\e[31mbet placed: \$$bet\e[0m"
 sleep 0.5
 
-slots = (0 2 0 1 0 1 0 2 0)
+slots=(0 2 0 1 0 1 0 2 0)
 
 position=$(( ${#slots[@]} / 2 ))
 

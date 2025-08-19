@@ -25,7 +25,7 @@ echo -e "\e[31mbet placed: \$$bet\e[0m"
 sleep 0.5
 
 num_horses=5
-track_length=15
+track_length=20
 
 echo
 echo "horses in the race:"
